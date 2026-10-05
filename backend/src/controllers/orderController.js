@@ -30,6 +30,7 @@ exports.getOrders = async (req, res) => {
 
           o.customer_name,
           o.mobile,
+            o.address,
 
           o.total_amount AS order_total_amount,
 
@@ -109,6 +110,7 @@ exports.getOrders = async (req, res) => {
 
           mobile:
             row.mobile,
+            address: row.address || "",
 
 
           /* ===============================================

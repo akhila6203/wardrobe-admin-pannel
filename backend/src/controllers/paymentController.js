@@ -52,6 +52,9 @@ exports.createPaymentOrder = async (req, res) => {
       name,
       mobile,
       mobile_number,
+      address,
+      delivery_address,
+      deliveryAddress,
     } = req.body;
 
     const finalCartId =
@@ -71,6 +74,8 @@ exports.createPaymentOrder = async (req, res) => {
         mobile_number ||
         ""
       ).trim();
+      const finalAddress =
+      String(address || delivery_address || deliveryAddress || "").trim();
 
 
     /* -----------------------------------------------------
@@ -100,6 +105,19 @@ exports.createPaymentOrder = async (req, res) => {
       return res.status(400).json({
         success: false,
         message: "Enter a valid 10 digit mobile number.",
+      });
+    }
+    if (!finalAddress) {
+      return res.status(400).json({
+        success: false,
+        message: "Delivery address is required.",
+      });
+    }
+
+    if (finalAddress.length > 500) {
+      return res.status(400).json({
+        success: false,
+        message: "Address is too long (max 500 characters).",
       });
     }
 
@@ -312,19 +330,21 @@ exports.createPaymentOrder = async (req, res) => {
     const orderResult = await query(
       connection,
       `
-        INSERT INTO orders
+               INSERT INTO orders
         (
           customer_name,
           mobile,
+          address,
           total_amount,
           payment_method,
           payment_status
         )
-        VALUES (?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?)
       `,
       [
         finalCustomerName,
         finalMobile,
+        finalAddress,
         finalTotal,
         "Razorpay",
         "pending",

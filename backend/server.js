@@ -1,5 +1,6 @@
 const express =
   require("express");
+  const path = require("path");
 
 const cors =
   require("cors");
@@ -14,6 +15,8 @@ const pool =
 
 const authRoutes =
   require("./src/routes/authRoutes");
+  const categoryRoutes = require("./src/routes/categoryRoutes");
+  const productRoutes = require("./src/routes/productRoutes");
 
 const menuRoutes =
   require("./src/routes/menuRoutes");
@@ -151,6 +154,9 @@ app.use(
   "/api/auth",
   authRoutes
 );
+app.use("/api/categories", categoryRoutes);
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/api/products", productRoutes);
 
 app.use(
   "/api/menu",
