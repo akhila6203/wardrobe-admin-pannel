@@ -33,6 +33,9 @@ const paymentRoutes =
     "./src/routes/cartRoutes"
   );
 
+  const settingsRoutes =
+  require("./src/routes/settingsRoutes");
+
 const {
   notFound,
   errorHandler,
@@ -176,6 +179,11 @@ app.use(
 app.use(
   "/api/cart",
   cartRoutes
+);
+
+app.use(
+  "/api/settings",
+  settingsRoutes
 );
 
 /* =========================================

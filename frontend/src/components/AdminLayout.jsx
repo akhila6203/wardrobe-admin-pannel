@@ -10,12 +10,18 @@ import Header from "./Header";
 const CategoryPage = lazy(() => import("../pages/CategoryPage"));
 const ProductsPage = lazy(() => import("../pages/ProductsPage"));
 const OrdersPage = lazy(() => import("../pages/OrdersPage"));
+const SettingsPage = lazy(
+  () =>
+    import(
+      "../pages/SettingsPage"
+    )
+);
 
 /* =========================================
    ALLOWED PAGES
 ========================================= */
 
-const PAGES = ["category", "products", "orders"];
+const PAGES = ["category", "products", "orders", "settings",];
 
 const getPageFromUrl = () => {
   const params = new URLSearchParams(window.location.search);
@@ -70,6 +76,7 @@ export default function AdminLayout({ onLogout }) {
             {activePage === "category" && <CategoryPage />}
             {activePage === "products" && <ProductsPage />}
             {activePage === "orders" && <OrdersPage />}
+            {activePage === "settings" && ( <SettingsPage />)}
           </Suspense>
         </div>
       </main>

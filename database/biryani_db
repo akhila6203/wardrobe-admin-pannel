@@ -225,3 +225,83 @@ CREATE TABLE IF NOT EXISTS cart_items (
     INDEX idx_cart_item_cart (cart_id),
     INDEX idx_cart_item_menu (menu_item_id)
 );
+
+
+CREATE TABLE `integration_settings` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+
+    `provider` VARCHAR(50) NOT NULL,
+
+    `is_enabled` TINYINT(1) NOT NULL DEFAULT 0,
+
+    `public_key` VARCHAR(255) DEFAULT NULL,
+
+    `secret_value` TEXT DEFAULT NULL,
+
+    `email` VARCHAR(255) DEFAULT NULL,
+
+    `password_value` TEXT DEFAULT NULL,
+
+    `pickup_location` VARCHAR(255) DEFAULT NULL,
+
+    `channel_id` VARCHAR(100) DEFAULT NULL,
+
+    `created_at` TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP,
+
+    `updated_at` TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (`id`),
+
+    UNIQUE KEY `uq_integration_provider` (`provider`)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
+
+
+INSERT INTO `integration_settings`
+(
+    `provider`,
+    `is_enabled`
+)
+VALUES
+    ('razorpay', 0),
+    ('shiprocket', 0);
+    
+
+ALTER TABLE `orders`
+
+ADD COLUMN `shipment_status`
+VARCHAR(50) NOT NULL DEFAULT 'pending'
+AFTER `payment_status`,
+
+ADD COLUMN `shiprocket_order_id`
+VARCHAR(100) DEFAULT NULL
+AFTER `razorpay_payment_id`,
+
+ADD COLUMN `shiprocket_shipment_id`
+VARCHAR(100) DEFAULT NULL
+AFTER `shiprocket_order_id`,
+
+ADD COLUMN `awb_code`
+VARCHAR(100) DEFAULT NULL
+AFTER `shiprocket_shipment_id`,
+
+ADD COLUMN `courier_name`
+VARCHAR(150) DEFAULT NULL
+AFTER `awb_code`,
+
+ADD COLUMN `courier_id`
+VARCHAR(100) DEFAULT NULL
+AFTER `courier_name`,
+
+ADD COLUMN `tracking_url`
+TEXT DEFAULT NULL
+AFTER `courier_id`,
+
+ADD COLUMN `estimated_delivery_date`
+DATE DEFAULT NULL
+AFTER `tracking_url`;

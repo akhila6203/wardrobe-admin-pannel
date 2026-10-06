@@ -1,6 +1,7 @@
 import {
   ClipboardList,
   Package,
+  Settings,
   Tags,
   X,
 } from "lucide-react";
@@ -83,6 +84,19 @@ export default function Sidebar({
           <button type="button" onClick={() => openPage("orders")} className={navClass("orders")}>
             <ClipboardList size={19} />
             Orders
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              openPage("settings")
+            }
+            className={
+              navClass("settings")
+            }
+          >
+            <Settings size={19} />
+
+            Settings
           </button>
         </nav>
       </aside>
